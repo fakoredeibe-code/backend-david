@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet David Portfolio</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!--Navigation-->
+    <header>
+        <div class="logo">Projet
+            <span>David</span>
+            Portfolio
+        </div>
+        <nav>
+            <a href="#accueil">Accueil</a>
+            <a href="#apropos">A propos</a>
+            <a href="#cv">CV</a>
+            <a href="#graphisme">Graphisme</a>
+            <a href="#web">Développement Web</a>
+            <a href="#contact">Contact</a>
+            <a href="admin.html" class="btn-admin">Admin</a>
+        </nav>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!--Accueil-->
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <h1>FAKOREDE <span>Olaéwé David</span></h1>
+            <p class="subtitle">Graphiste & Développeur Web autodidacte</p>
+            <p class="tagline">
+                Licence en Sociologie et Anthropologie - Certificat en Informatique Bureautique
+            </p>
+            <div class="hero-buttons">
+                <a href="#apropos" class="btn">Découvrir mon parcours</a>
+                <a href="#contact" class="btn btn-outline">Me contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!--A propos-->
+    <section id="apropos" class="section">
+        <h2 class="section-title">A propos de moi</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Je m'appelle <strong>FAKOREDE Olaéwé David</strong>, Béninois originaire d'Abadago (arrondissement de Massè, commune d'Adja-Ouèrè). Je vis parfois à Pobè.</p>
+                <p>Titulaire d'un <strong>Baccalauréat Série D</strong> et d'une <strong>Licence en Sociologie et Anthropologie (Médiation Sociale et Facilitation pour le Développement)</strong> et d'un <strong>Certificat en Informatique Bureautique</strong>, je me forme en autonomie dans le graphisme et le développement web.</p>
+                <p>Le numérique m'est toujours venu facilement. Aujourd'hui, je crée des identités visuelles, des supports graphiques et des sites web modernes et fonctionnels.</p>
+                <p>Ce portfolio présente mes réalisations et mon évolution constante dans le domaine digital.</p>
+            </div>
+            <div class="about-info">
+                <div class="info-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Formation</h3>
+                    <p>Licence Sociologie & Anthropologie<br>Certificat Informatique Bureautique</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Compétences</h3>
+                    <p>Graphisme - Développement Web<br>autodidacte & passionné</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Localisation</h3>
+                    <p>Bénin - Pobè / Abadago<br>Adja-Ouèrè</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--CV-->
+    <section id="cv" class="section bg-dark">
+        <h2 class="section-title">Mes CV</h2>
+        <p class="section-desc">Documents de candidature selon les postes</p>
+        <div class="grid" id="cv-list">
+            <!--Les cv ajoutés depuis l'admin apparaîtront ici-->
+        </div>
+    </section>
+
+    <!--Graphisme-->
+    <section id="graphisme" class="section">
+        <h2 class="section-title">Graphisme</h2>
+        <p class="section-desc">Mes créations visuelles et identités graphiques</p>
+        <div class="grid" id="graphisme-list">
+            <!--Les designs ajoutés depuis l'admin apparaîtront ici-->
+        </div>
+    </section>
+
+    <!--Développemnt Web-->
+    <section id="web" class="section bg-dark">
+        <h2 class="section-title">Développement Web</h2>
+        <p class="section-desc">Mes projet et sites réalisés</p>
+        <div class="grid" id="web-list">
+            <!--Les projets web ajoutés depus l'admin appapaîtront ici-->
+        </div>
+    </section>
+
+    <!--Contact-->
+    <section id="contact" class="section">
+        <h2 class="section-title">Me contacter</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <a href="mailto:fakoredeibe@gmail.com">fakoredeibe@gmail.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <h3>Téléphone / WhatsApp</h3>
+                        <a href="https://wa.me/2290150564913" target="_blank">+229 01 50 56 49 13</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Localisation</h3>
+                        <p>Pobè / Abadago - Adja-Ouèrè, Bénin</p>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
+                <input type="email" name="email" id="email" placeholder="Votre email" required>
+                <textarea name="message" id="message" placeholder="Votre message" rows="5" required></textarea>
+                <button type="submit" class="btn">Envoyer le message</button>
+            </form>
+        </div>
+    </section>
+
+    <!--Footer-->
+    <footer>
+        <p>&copy; 2026 Projet David Portfolio - FAKOREDE Olaéwé David</p>
+        <p>Graphiste & Développeur Web autodidacte</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

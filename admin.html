@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        .admin-container{
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 0 5%;
+        }
+
+        .login-box, .admin-panel{
+            background: var(--gris);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .login-box h2, .admin-panel h2{
+            color: var(--or);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group{
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label{
+            display: block;
+            margin-bottom: 0.4rem;
+            color: var(--texte-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea{
+            width: 100%;
+            background: var(--noir);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            color: var(--texte);
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus{
+            outline: none;
+            border-color: var(--or);
+        }
+
+        .admin-actions{
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-danger{
+            background: #c0392b;
+            border-color: #c0392b;
+            color: white;
+        }
+
+        .btn-danger:hover{
+            background: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .btn-success{
+            background: #27ae60;
+            border-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover{
+            background: #2ecc71;
+            border-color: #2ecc71;
+        }
+
+        .items-list, .message-list{
+            margin-top: 2.5rem;
+        }
+
+        .item-row, .message-row{
+            background: var(--noir);
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .item-row .info, .message-row .info{
+            flex: 1;
+        }
+
+        .type-badge{
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--or);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .badge-new{
+            background: #e74c3c;
+            color: white;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 0.4rem;
+        }
+
+        .badge-repondu{
+            background: #27ae60;
+            color: white;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.7rem;
+            margin-left: 0.4rem;
+            border-radius: 4px;
+        }
+
+        .hidden{
+            display: none !important;
+        }
+
+        .back-link{
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--or);
+        }
+
+        .back-link:hover{
+            text-decoration: underline;
+        }
+
+        .tabs{
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn{
+            background: transparent;
+            border: 2px solid var(--or);
+            color: var(--or);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tab-btn.active{
+            background: var(--or);
+            color: var(--noir);
+        }
+
+        .message-content{
+            margin-top: 0.6rem;
+            color: #ccc;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        .message-meta{
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.4rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Projet <span>David</span> Portfolio</div>
+        <nav>
+            <a href="index.html">Retour au site</a>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <!--Connexion-->
+        <div class="login-box" id="loginBox">
+            <h2><i class="fas fa-lock"></i> Espace Admin</h2>
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" id="password" placeholder="Entrez le mot de passe">
+            </div>
+            <button class="btn" onclick="login()">Se connecter</button>
+        </div>
+        <!--Panel Admin-->
+        <div class="admin-panel hidden" id="adminPanel">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i>Retour au site</a>
+
+            <!--Onglets-->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('realisations')">Réalisations</button>
+                <button class="tab-btn" onclick="showTab('messages')">Messages reçus</button>
+            </div>
+
+            <!--Onglet réalisations-->
+            <div id="tab-realisations">
+
+                <h2>Ajouter une réalisation</h2>
+
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="type">
+                        <option value="cv">CV</option>
+                        <option value="graphisme">Graphisme</option>
+                        <option value="web">Développement Web</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Titre *</label>
+                    <input type="text" id="titre" placeholder="Ex: Logo entreprise X">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="2" placeholder="Courte description..."></textarea> 
+                </div>
+                <div class="form-group" id="group-image">
+                    <label>Lien de l'image (URL)</label>
+                    <input type="file" id="image" accept="image/*">
+                </div>
+                <div class="form-group" id="group-fichier">
+                    <label>Lien du fichier CV (PDF)</label>
+                    <input type="file" id="fichier" accept="fichier...">
+                </div>
+                <div class="form-group" id="group-lien">
+                    <label>Lien du site web</label>
+                    <input type="link" id="lien" placeholder="lien...">
+                </div>
+                <div class="admin-actions">
+                    <button class="btn" onclick="ajouterItem()">Ajouter</button>
+                    <button class="btn btn-outline" onclick="logout()">Déconnexion</button>
+                </div>
+
+                <!--Liste des éléments existants-->
+                <div class="items-list">
+                    <h2 style="margin-top: 2.5rem;">Réalisations actuelles</h2>
+                    <div id="itemsList"></div>
+                </div>
+            </div>
+        
+
+            <div id="tab-messages" class="hidden">
+                <h2>Messages reçus</h2>
+                <p style="color:#aaa;margin-bottom:1.5rem;font-size:0.9rem;">
+                    Clique sur  Répondre  pour ouvirir ton email déjà pré-rempli avec l'adresse de l'expéditeur.
+                </p>
+                <div id="messagesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://backend-david-1.onrender.com";
+        const api = "https://backend-david-1.onrender.com";
+
+
+        
+        // login
+
+        async function login(){
+            const password = document.getElementById("password").value;
+            try{
+                const res = await fetch(`${API_URL}/api/login`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({password})
+                });
+
+                const data = await res.json();
+                if (data.success){
+                    document.getElementById("loginBox").classList.add("hidden");
+                    document.getElementById("adminPanel").classList.remove("hidden");
+                    renderAdminList();
+                    renderMessages();
+                    updateFormVisibility()
+                } else{
+                    alert(data.message || "Mot de passe incorrect");
+                }
+            }catch (err){
+                alert("Impossible de contacter le serveur. Vérifie que le backend est lancé (node server.js).");
+            }
+        }
+
+        function logout(){
+            document.getElementById("adminPanel").classList.add("hidden");
+            document.getElementById("loginBox").classList.remove("hidden");
+            document.getElementById("password").value = "";
+        }
+
+        // Onglets
+        function showTab(tab){
+            document.getElementById("tab-realisations").classList.add("hidden");
+            document.getElementById("tab-messages").classList.add("hidden");
+            document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+            if(tab === "realisations"){
+                document.getElementById("tab-realisations").classList.remove("hidden");
+                document.querySelectorAll(".tab-btn")[0].classList.add("active");
+            }else{
+                document.getElementById("tab-messages").classList.remove("hidden");
+                document.querySelectorAll(".tab-btn")[1].classList.add("active");
+                renderMessages();
+            }
+        }
+
+        // Afficher les champs selon le type
+        document.getElementById("type").addEventListener("change",updateFormVisibility);
+
+        function updateFormVisibility(){
+            const type = document.getElementById("type").value;
+            document.getElementById("group-image").style.display = (type === "graphisme" || type === "web") ? "block" : "none";
+            document.getElementById("group-fichier").style.display = type === "cv" ? "block" : "none";
+            document.getElementById("group-lien").style.display = type === "web" ? "block" : "none";
+
+        }
+
+        async function ajouterItem(){
+            const type = document.getElementById("type").value;
+            const titre = document.getElementById("titre").value.trim();
+            const description = document.getElementById("description").value.trim();
+            const image = document.getElementById("image").value.trim();
+            const fichier = document.getElementById("fichier").value.trim();
+            const lien = document.getElementById("lien").value.trim();
+
+            if (!titre){
+                alert("Le titre est obligatoire");
+                return;
+            }
+            try{
+                const res = await fetch(`${API_URL}/api/items`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({type, titre, description, image, fichier, lien})
+                });
+
+                const data = await res.json();
+                if (data.success){
+                    document.getElementById("titre").value = "";
+                    document.getElementById("description").value = "";
+                    document.getElementById("image").value = "";
+                    document.getElementById("fichier").value = "";
+                    document.getElementById("lien").value = "";
+                    renderAdminList();
+                    alert("Réalisation ajoutée !");
+                }
+            }catch (err){
+                alert("Erreur lors de l'ajout");
+            }     
+        }
+
+        async function supprimerItem(id){
+            if (!confirm("Supprimer cette réalisation ?")) return;
+            try{
+                await fetch(`${API_URL}/api/items/${id}`, {method: "DELETE"});
+                renderAdminList();
+            }catch (err){
+                alert("Erreur lors de la suppression");
+            }
+        }
+
+        async function renderAdminList(){
+            try{
+                const res = await fetch(`${API_URL}/api/items`);
+                const items = await res.json();
+                const container = document.getElementById("itemsList");
+                container.innerHTML = "";
+
+                if (items.length === 0){
+                    container.innerHTML = "<p style='color:#888'>Ancune réalisation.</p>";
+                    return;
+                }
+
+                items.forEach(item => {
+                    const row = document.createElement("div");
+                    row.className = "item-row";
+                    row.innerHTML = `
+                        <div class="info">
+                           <span class="type-badge">${item.type.toUpperCase()}</span>
+                           <strong>${item.titre}</strong>
+                           <br><small style="color:#888">${item.description || ""}</small>
+                        </div>
+                        <button class="btn btn-danger" onclick="supprimerItem(${item.id})" style="padding:0.4rem 0.9rem;font-size:0.8rem;">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    `;
+
+                    container.appendChild(row);
+                });
+            }catch  (err) {
+                console.error(err);
+            }        
+            
+        }
+
+        // Messages
+
+
+
+        async function renderMessages(){
+            try{
+                const res = await fetch(`${API_URL}/api/messages`);
+                const data = await res.json();
+                const container = document.getElementById("messagesList");
+                container.innerHTML = "";
+
+                if(!data || data.length === 0){
+                    container.innerHTML = `<p style="color:#888">Aucun message reçu.</p>`;
+                    return;
+                }
+
+                data.forEach(msg =>{
+                    const row = document.createElement("div");
+                    row.className = "message-row";
+
+                    let badges = "";
+                    if(!msg.lu) badges += `<span class="badge-new">Nouveau</span>`;
+                    if(msg.repondu) badges += `<span class="badge-repondu">Répondu</span>`;
+                    row.innerHTML = `
+                        <div class="info">
+                            <strong>${msg.nom || msg.name || "Anonyme"}</strong> ${badges}<br>
+                            <a href="mailto: ${msg.email}" style="color:var(--or);font-size:0.9rem;"> ${msg.email}</a>
+                            <div class="message-content">${msg.message || msg.content || msg.sujet || msg.subject || ""}</div>
+                            <div class="message-meta">${msg.date ? new Date(msg.date).toLocaleString() : ""}</div>
+                        </div>
+                    `;
+
+                    // Boutons
+                    const buttonsDiv = document.createElement("div");
+                    buttonsDiv.style.cssText = "display:flex;flex-direction:column;gap:0.5rem;";
+
+                    // Bouton répondre
+                    const btnReply = document.createElement("button");
+                    btnReply.className = "btn btn-success";
+                    btnReply.style.cssText = "padding:0.4rem 0.9rem;font-size:0.8rem;";
+                    btnReply.innerHTML = `<i class="fas fa-reply"></i> Répondre`;
+                    btnReply.onclick = () => repondreMessage(msg.email, msg.nom, msg._id);
+
+                    // Bouton supprimer
+                    const btnDelete = document.createElement("button");
+                    btnDelete.className = "btn btn-danger";
+                    btnDelete.style.cssText = "padding:0.4rem 0.9rem;font-size:0.8rem;";
+                    btnDelete.innerHTML = `<i class="fas fa-trash"></i> Supprimer`;
+                    btnDelete.onclick = () => supprimerMessage(msg._id);
+
+                    buttonsDiv.appendChild(btnReply);
+                    buttonsDiv.appendChild(btnDelete);
+                    row.appendChild(buttonsDiv);
+
+                    container.appendChild(row);
+                });
+            }catch (err){
+                console.error(err);
+            }   
+        }
+
+
+        async function repondreMessage(email, nom, id){
+            // Marquer comme lu et répondu
+            try{
+                await fetch(`${API_URL}/api/messages/${id}`, {
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({lu: true, repondu: true})
+                });
+
+                await renderMessages();
+
+                // ouvrir le client email
+                const subject = encodeURIComponent("Re: Message depuis Projet David Portfolio");
+                const body = encodeURIComponent(`Bonjour ${nom}, \n\nMerci pour votre message sur mon portfolio. \n\nCordialement, \nFAKOREDE Olaéwé David\nProjet David Portfolio\nfakoredeibe@gmail.com\n+229 01 50 56 49 13`);
+                window.open(`mailto:${email}?subject=${subject}$body=${body}`, "_blank");
+            }catch (err){}
+
+            
+        }
+
+        async function supprimerMessage(id){
+            if(!confirm("Supprimer ce message ?")) return;
+            try{
+                await fetch(`${API_URL}/api/messages/${id}`, {method: "DELETE"});
+                await renderMessages();
+            }catch (err){
+                alert("Erreur lors de la suppression");
+            }
+            
+        }
+
+        // initialisation
+        updateFormVisibility();
+    </script>
+    
+</body>
+</html>
